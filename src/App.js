@@ -1,24 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-/**
- * FOOD ORDERING APP -
- * HEADER
- *  - Logo
- *  - Nav
- * BODY
- *  - Search
- *  - Restaurant Container
- *      - RestaurantCards
- *        - Image
- *        - Name of Restaurant, Star Rating, Cuisine, Delivery TIme
- * FOOTER
- *  - Copyright Information
- *  - Links
- *  - Address
- *  - Contact Information
- */
-
 // React Element
 
 // JSX (transpiled before it reaches the JS) -> PARCEL -> BABEL
