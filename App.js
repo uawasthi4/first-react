@@ -1,14 +1,48 @@
-const parent = React.createElement("div", { id: "parent" }, [
-  React.createElement("div", { id: "child" }, [
-    React.createElement("h1", { id: "heading" }, "Hello from h1 tag!"),
-    React.createElement("h2", { id: "heading" }, "Hello from h2 tag!"),
-  ]),
-  React.createElement("div", { id: "child2" }, [
-    React.createElement("h1", { id: "heading" }, "Hello from child 2 - h1 tag!"),
-    React.createElement("h2", { id: "heading" }, "Hello from child 2 - h2 tag!"),
-  ]),
-]);
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-console.log(parent); // object
+/**
+ * FOOD ORDERING APP -
+ * HEADER
+ *  - Logo
+ *  - Nav
+ * BODY
+ *  - Search
+ *  - Restaurant Container
+ *      - RestaurantCards
+ *        - Image
+ *        - Name of Restaurant, Star Rating, Cuisine, Delivery TIme
+ * FOOTER
+ *  - Copyright Information
+ *  - Links
+ *  - Address
+ *  - Contact Information
+ */
+
+// React Element
+
+// JSX (transpiled before it reaches the JS) -> PARCEL -> BABEL
+
+// JSX => Babel transpiles it to React.createElement => ReactElement-JS Object => HTMLElement(Render)
+
+// JSX heading element
+const heading = (
+  <h2 id="heading">JSX is not HTML, it's a HTML like syntax 😒</h2>
+);
+
+const TitleComponent = () => <h1>Welcome to First React App !!! 😎</h1>;
+
+// Functional Component & Component Composition
+const HeadingComponent = () => (
+  <div id="container">
+    <TitleComponent />
+    {heading}
+    <h3 id="head">React Functional Component 😁</h3>
+  </div>
+);
+
+console.log(heading);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(parent);
+
+// root.render(<HeadingComponent />);
