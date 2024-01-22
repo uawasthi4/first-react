@@ -51,5 +51,27 @@
 
 .filter-btn {
   cursor: pointer;
+  margin: 0 20px;
+}
+
+.shimmer-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shimmer-card {
+  width: 200px;
+  height: 400px;
+  background-color: #f0f0f0;
   margin: 10px;
+}
+
+.login-btn {
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.filter {
+  margin: 15px;
+  display: flex;
 }
