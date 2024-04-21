@@ -1,14 +1,23 @@
-import RestaurantCard from "../components/RestaurantCard";
-import { useEffect, useState } from "react";
+import RestaurantCard, {
+  withTopRatedLabel,
+} from "../components/RestaurantCard";
+import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
-const BodyComponent = () => {
+const Body = () => {
   const [resList, setResList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const onlineStatus = useOnlineStatus();
+  const RestaurantCardTopRated = withTopRatedLabel(RestaurantCard);
+  const { loggedInUser, setUserName } = useContext(UserContext);
+
   function filterList() {
     setFilteredList(
-      resList.filter((restaurant) => restaurant.info.avgRating >= 4)
+      resList.filter((restaurant) => restaurant.info.avgRating >= 4.2)
     );
   }
 
@@ -29,25 +38,35 @@ const BodyComponent = () => {
       json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
-    console.log(json);
   };
+
+  if (!onlineStatus) {
+    return (
+      <h1>
+        Looks like you're offline. Please check your internet connection!!!
+      </h1>
+    );
+  }
 
   // Conditional Rendering
   return resList.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="search-bar">
+      <div className="flex">
+        <div className="m-3 p-3">
           <input
             type="text"
-            className="search-box"
+            className="border border-solid border-black rounded-md py-1 px-2"
+            placeholder="Enter Restaurant Name"
+            data-testid={"searchInput"}
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           ></input>
           <button
+            className="px-3 py-2 m-3 bg-pink-300 rounded-lg hover:bg-pink-500"
             onClick={() => {
               setFilteredList(
                 resList.filter((res) =>
@@ -59,17 +78,44 @@ const BodyComponent = () => {
             Search
           </button>
         </div>
-        <button className="filter-btn" onClick={filterList}>
-          Top rated restaurants
-        </button>
+        <div className="flex items-center">
+          <button
+            className="px-3 py-2 m-3 bg-pink-300 rounded-lg hover:bg-pink-500"
+            onClick={filterList}
+          >
+            Top rated restaurants
+          </button>
+        </div>
+        <div className="flex items-center m-3 p-3">
+          <label>User Name: </label>
+          <input
+            type="text"
+            className="border border-solid border-black rounded-md py-1 px-2 ml-1"
+            placeholder="Enter User Name"
+            value={loggedInUser}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          ></input>
+        </div>
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
         {filteredList.map((restaurant) => (
-          <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+            {/**If a restaurant is promoted, add a promoted label to it */}
+            {restaurant.info.avgRating >= 4.2 ? (
+              <RestaurantCardTopRated resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
+          </Link>
         ))}
       </div>
     </div>
   );
 };
 
-export default BodyComponent;
+export default Body;
